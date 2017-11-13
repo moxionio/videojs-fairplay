@@ -315,7 +315,7 @@ videojs.fairplaySourceHandler.canPlayType = function canPlayType(type) {
 };
 
 if (window.MediaSource) {
-  videojs.getComponent('Html5').registerSourceHandler(videojs.fairplaySourceHandler(), 0);
+  videojs.Html5.registerSourceHandler(videojs.fairplaySourceHandler());
 }
 
 videojs.Html5Fairplay = Html5Fairplay;
