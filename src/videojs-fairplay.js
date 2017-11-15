@@ -258,6 +258,8 @@ class Html5Fairplay {
 
   src({ src }) {
     if (!this.hasProtection(this.protection_)) {
+	  if (src != this.tech_.src)
+		player.reset();
       this.tech_.src(src);
 
       return;
