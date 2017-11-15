@@ -244,7 +244,7 @@ class Html5Fairplay {
 	
 	const initDataString = arrayToString(event.initData);
 
-    const contentId = extractContentId(initDataString =);
+    const contentId = extractContentId(initDataString );
 
     const initData = concatInitDataIdAndCertificate(event.initData, contentId, certificate);
 	var parts = initDataString.split("//");
