@@ -1,6 +1,6 @@
 /* global videojs, WebKitMediaKeys */
 
-import { arrayToString, getHostnameFromURI } from './util';
+import { arrayToString, getHostnameFromURI, base64EncodeUint8Array } from './util';
 import concatInitDataIdAndCertificate from './fairplay';
 import ERROR_TYPE from './error-type';
 
