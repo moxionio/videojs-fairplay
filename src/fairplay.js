@@ -41,9 +41,8 @@ export function concatInitDataIdAndCertificate(initData, id, certificate) {
   return new Uint8Array(buffer, 0, buffer.byteLength);
 }
 
-export function extractContentId(initData) {
-    var contentId = arrayToString(initData);
-	var parts = contentId.split("//");
+export function extractContentId(contentId) {
+    var parts = contentId.split("//");
 	if (parts.length != 2) {
 	  throw "Invalid content key format"
 	}

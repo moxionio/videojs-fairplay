@@ -241,11 +241,13 @@ class Html5Fairplay {
     this.log('onVideoWebkitNeedKey()');
 
     const { keySystem } = this.protection_;
+	
+	const initDataString = arrayToString(event.initData);
 
-    const contentId = extractContentId(arrayToString(event.initData));
+    const contentId = extractContentId(initDataString =);
 
     const initData = concatInitDataIdAndCertificate(event.initData, contentId, certificate);
-	var parts = arrayToString(event.initData).split("//");
+	var parts = initDataString.split("//");
 			
 	this.protection_.licenseUrl = "https://" + parts[1];
 	
