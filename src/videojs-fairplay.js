@@ -242,8 +242,9 @@ class Html5Fairplay {
     const contentId = getHostnameFromURI(arrayToString(event.initData));
 
     const initData = concatInitDataIdAndCertificate(event.initData, contentId, certificate);
-
-	this.protection_.licenseUrl = arrayToString(event.initData).replace('skd://', 'https://');
+	var parts = arrayToString(event.initData).split("//");
+			
+	this.protection_.licenseUrl = "https://" + parts[1];
 	
 	
     const keySession = this.createKeySession(keySystem, initData);
