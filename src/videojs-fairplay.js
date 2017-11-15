@@ -217,7 +217,7 @@ class Html5Fairplay {
     this.log('onLicenseLoad()');
 
     const {
-      response,
+      responseText,
       session,
       status,
     } = event.target;
@@ -230,7 +230,7 @@ class Html5Fairplay {
 
 	// response can be of the form: '\n<ckc>base64encoded</ckc>\n'
 	// so trim the excess:
-	var keyText = response.trim();
+	var keyText = responseText.trim();
 	if (keyText.substr(0, 5) === '<ckc>' && keyText.substr(-6) === '</ckc>') 
 		keyText = keyText.slice(5,-6);
 	var key = base64DecodeUint8Array(keyText);
