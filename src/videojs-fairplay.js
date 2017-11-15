@@ -20,7 +20,7 @@ class Html5Fairplay {
     }
 
     this.el_ = tech.el();
-    this.player_ = videojs(options.playerId);
+    this.player_ = videojs(tech.options_.playerId);
     this.protection_ = source && source.protection;
     this.tech_ = tech;
 
