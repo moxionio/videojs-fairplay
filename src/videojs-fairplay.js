@@ -1,7 +1,7 @@
 /* global videojs, WebKitMediaKeys */
 
 import { arrayToString, getHostnameFromURI, base64EncodeUint8Array } from './util';
-import concatInitDataIdAndCertificate from './fairplay';
+import { concatInitDataIdAndCertificate, extractContentId } from './fairplay';
 import ERROR_TYPE from './error-type';
 
 let certificate;
@@ -67,21 +67,7 @@ class Html5Fairplay {
   }
 
   
-  function extractContentId(initData) {
-    contentId = arrayToString(initData);
-	var parts = contentId.split("//");
-	if (parts.length != 2) {
-	  throw "Invalid content key format"
-	}
-
-	
-	rawContentId = parts[1];
-	
-	rawContentId = rawContentId.replace(/-/g,'');
-	window.console.log("extractContentId", rawContentId);
-	
-	return rawContentId;
-}
+  
 
   fetchCertificate({ callback }) {
     this.log('fetchCertificate()');
