@@ -66,6 +66,26 @@ class Html5Fairplay {
     return keySession;
   }
 
+  
+	function extractContentId(initData) {
+		window.console.log("extractContentId", event);
+		contentId = arrayToString(initData);
+		window.console.log("extractContentId", contentId);
+		
+		var parts = contentId.split("//");
+		if (parts.length != 2) {
+		  throw "Invalid content key format"
+		}
+
+		
+		rawContentId = parts[1];
+		
+		rawContentId = rawContentId.replace(/-/g,'');
+		window.console.log("extractContentId", rawContentId);
+		
+		return rawContentId;
+	}
+
   fetchCertificate({ callback }) {
     this.log('fetchCertificate()');
 
@@ -239,7 +259,7 @@ class Html5Fairplay {
 
     const { keySystem } = this.protection_;
 
-    const contentId = getHostnameFromURI(arrayToString(event.initData));
+    const contentId = extractContentId(arrayToString(event.initData));
 
     const initData = concatInitDataIdAndCertificate(event.initData, contentId, certificate);
 	var parts = arrayToString(event.initData).split("//");
