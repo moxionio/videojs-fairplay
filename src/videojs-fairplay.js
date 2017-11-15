@@ -96,7 +96,7 @@ class Html5Fairplay {
 
     const request = new XMLHttpRequest();
 
-    request.responseType = 'arraybuffer';
+    request.responseType = 'text';
     request.session = target;
 
     request.addEventListener('error', this.onLicenseError, false);
@@ -214,15 +214,21 @@ class Html5Fairplay {
   }
 
   onLicenseLoad(event)
-{
+	{
+	this.log('onLicenseLoad()');
+	 const {
+      response,
+      session,
+      status,
+    } = event.target;
+	
 	var request = event.target;
-	var session = request.session;
 	// response can be of the form: '\n<ckc>base64encoded</ckc>\n'
 	// so trim the excess:
-	keyText = request.responseText.trim();
+	var keyText = request.responseText;
 	if (keyText.substr(0, 5) === '<ckc>' && keyText.substr(-6) === '</ckc>') 
 		keyText = keyText.slice(5,-6);
-	key = base64DecodeUint8Array(keyText);
+	var key = base64DecodeUint8Array(keyText);
 	session.update(key);
 }
 
@@ -233,6 +239,7 @@ class Html5Fairplay {
     this.log('onVideoError()');
 
     this.player_.error({
+		
       code: 0,
       message: 'A video playback error occurred.',
     });
@@ -337,3 +344,6 @@ if (window.MediaSource) {
 videojs.Html5Fairplay = Html5Fairplay;
 
 export default Html5Fairplay;
+ 
+ 
+ 
