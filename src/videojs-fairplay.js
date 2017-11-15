@@ -5,7 +5,7 @@ import concatInitDataIdAndCertificate from './fairplay';
 import ERROR_TYPE from './error-type';
 
 let certificate;
-let logToBrowserConsole = false;
+let logToBrowserConsole = true;
 
 class Html5Fairplay {
   static setLogToBrowserConsole(value = false) {
@@ -97,10 +97,12 @@ class Html5Fairplay {
 
     request.addEventListener('error', this.onLicenseError, false);
     request.addEventListener('load', this.onLicenseLoad, false);
-
+	var params = 'spc='+base64EncodeUint8Array(message);
+		
     request.open('POST', licenseUrl, true);
-    request.setRequestHeader('Content-type', 'application/octet-stream');
-    request.send(message);
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.send(params);
+	
   }
 
   getErrorResponse(response) {
@@ -111,10 +113,10 @@ class Html5Fairplay {
     return String.fromCharCode.apply(null, new Uint8Array(response));
   }
 
-  hasProtection({ certificateUrl, keySystem, licenseUrl } = {}) {
+  hasProtection({ certificateUrl, keySystem } = {}) {
     this.log('hasProtection()');
 
-    return certificateUrl && keySystem && licenseUrl;
+    return certificateUrl && keySystem;
   }
 
   log(...messages) {
@@ -188,6 +190,7 @@ class Html5Fairplay {
     const message = event.message;
     const target = event.target;
 
+
     this.fetchLicense({
       message,
       target,
@@ -239,6 +242,9 @@ class Html5Fairplay {
 
     const initData = concatInitDataIdAndCertificate(event.initData, contentId, certificate);
 
+	this.protection_.licenseUrl = arrayToString(event.initData).replace('skd://', 'https://');
+	
+	
     const keySession = this.createKeySession(keySystem, initData);
 
     keySession.contentId = contentId;
@@ -315,7 +321,7 @@ videojs.fairplaySourceHandler.canPlayType = function canPlayType(type) {
 };
 
 if (window.MediaSource) {
-  videojs.Html5.registerSourceHandler(videojs.fairplaySourceHandler());
+  videojs.getComponent('Html5').registerSourceHandler(videojs.fairplaySourceHandler(), 0);
 }
 
 videojs.Html5Fairplay = Html5Fairplay;
