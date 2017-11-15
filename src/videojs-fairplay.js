@@ -213,30 +213,21 @@ class Html5Fairplay {
     });
   }
 
-  onLicenseLoad(event) {
-    this.log('onLicenseLoad()');
-
-    const {
-      responseText,
-      session,
-      status,
-    } = event.target;
-
-    if (status !== 200) {
-      this.onRequestError(event.target, ERROR_TYPE.FETCH_LICENCE);
-
-      return;
-    }
-
+  onLicenseLoad(event)
+{
+	var request = event.target;
+	var session = request.session;
 	// response can be of the form: '\n<ckc>base64encoded</ckc>\n'
 	// so trim the excess:
-	var keyText = responseText.trim();
+	keyText = request.responseText.trim();
 	if (keyText.substr(0, 5) === '<ckc>' && keyText.substr(-6) === '</ckc>') 
 		keyText = keyText.slice(5,-6);
-	var key = base64DecodeUint8Array(keyText);
+	key = base64DecodeUint8Array(keyText);
+	session.update(key);
+}
+
 	
-    session.update(key);
-  }
+	
 
   onVideoError() {
     this.log('onVideoError()');
