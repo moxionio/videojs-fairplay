@@ -1,6 +1,6 @@
 /* global videojs, WebKitMediaKeys */
 
-import { arrayToString, getHostnameFromURI, base64EncodeUint8Array } from './util';
+import { arrayToString, getHostnameFromURI, base64EncodeUint8Array, base64DecodeUint8Array } from './util';
 import { concatInitDataIdAndCertificate, extractContentId } from './fairplay';
 import ERROR_TYPE from './error-type';
 
@@ -169,6 +169,9 @@ class Html5Fairplay {
 
     this.player_.error({
       code: 0,
+	  
+	  
+	  
       message: errorMessage,
     });
   }
@@ -225,7 +228,14 @@ class Html5Fairplay {
       return;
     }
 
-    session.update(new Uint8Array(response));
+	// response can be of the form: '\n<ckc>base64encoded</ckc>\n'
+	// so trim the excess:
+	var keyText = response.trim();
+	if (keyText.substr(0, 5) === '<ckc>' && keyText.substr(-6) === '</ckc>') 
+		keyText = keyText.slice(5,-6);
+	var key = base64DecodeUint8Array(keyText);
+	
+    session.update(key);
   }
 
   onVideoError() {
