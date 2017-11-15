@@ -1,22 +1,8 @@
-import { stringToArray,arrayToString } from './util';
+import { stringToArray, arrayToString } from './util';
 
-export function extractContentId(initData) {
-    contentId = arrayToString(initData);
-	var parts = contentId.split("//");
-	if (parts.length != 2) {
-	  throw "Invalid content key format"
-	}
 
-	
-	rawContentId = parts[1];
-	
-	rawContentId = rawContentId.replace(/-/g,'');
-	window.console.log("extractContentId", rawContentId);
-	
-	return rawContentId;
-}
 
-export default function concatInitDataIdAndCertificate(initData, id, certificate) {
+export function concatInitDataIdAndCertificate(initData, id, certificate) {
   if (typeof id === 'string') {
     id = stringToArray(id);
   }
@@ -53,4 +39,19 @@ export default function concatInitDataIdAndCertificate(initData, id, certificate
   certificateArray.set(certificate);
 
   return new Uint8Array(buffer, 0, buffer.byteLength);
+}
+
+export function extractContentId(initData) {
+    contentId = arrayToString(initData);
+	var parts = contentId.split("//");
+	if (parts.length != 2) {
+	  throw "Invalid content key format"
+	}
+
+	
+	rawContentId = parts[1];
+	
+	rawContentId = rawContentId.replace(/-/g,'');
+	
+	return rawContentId;
 }
