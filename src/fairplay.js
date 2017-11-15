@@ -42,14 +42,14 @@ export function concatInitDataIdAndCertificate(initData, id, certificate) {
 }
 
 export function extractContentId(initData) {
-    contentId = arrayToString(initData);
+    var contentId = arrayToString(initData);
 	var parts = contentId.split("//");
 	if (parts.length != 2) {
 	  throw "Invalid content key format"
 	}
 
 	
-	rawContentId = parts[1];
+	var rawContentId = parts[1];
 	
 	rawContentId = rawContentId.replace(/-/g,'');
 	
